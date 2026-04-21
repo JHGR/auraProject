@@ -5,10 +5,10 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Ruta al build de Angular - ajustada a nuestra estructura
-const distPath = path.join(__dirname, 'dist', 'supercopias-frontend');
+const distPath = path.join(__dirname, 'dist', 'aura-salon');
 
-console.log('SuperCopias SPA Server - Express');
-console.log('================================');
+console.log('Aura Sala de Belleza SPA Server - Express');
+console.log('==========================================');
 console.log(`Serving files from: ${distPath}`);
 console.log(`Port: ${port}`);
 console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);

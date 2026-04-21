@@ -1,0 +1,1 @@
+{"ast":null,"code":"// Configuración de producción para Railway\nexport const environment = {\n  production: true,\n  apiUrl: 'https://supercopias-backend-production.up.railway.app/api',\n  name: 'production'\n};","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}
