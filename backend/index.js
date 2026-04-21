@@ -47,9 +47,10 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 const allowedOrigins = isDevelopment 
   ? ['http://localhost:4200', 'http://127.0.0.1:4200']
   : [
-      process.env.FRONTEND_URL || 'https://supercopias-frontend-production.up.railway.app',
-      'https://supercopias.com'
-    ];
+      process.env.FRONTEND_URL,
+      // Fallbacks por si FRONTEND_URL no está definida
+      'https://auraproject-frontend-production.up.railway.app',
+    ].filter(Boolean);
 
 console.log('🌐 Entorno:', isDevelopment ? 'DESARROLLO' : 'PRODUCCIÓN');
 console.log('🔐 CORS orígenes permitidos:', allowedOrigins);
