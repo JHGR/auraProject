@@ -1,0 +1,54 @@
+/* Estilos del formulario de inventario */
+
+.card { box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+
+.card-tipo {
+  border: 2px solid #dee2e6;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  &:hover {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+  }
+}
+
+.form-label {
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.text-danger {
+  color: #dc3545;
+}
+
+.input-group-text {
+  background-color: #e9ecef;
+}
+
+/* Botones de acción: sticky al fondo en móvil */
+@media (max-width: 575px) {
+  .form-actions {
+    position: sticky;
+    bottom: 0;
+    background: #fff;
+    border-top: 1px solid #dee2e6;
+    padding: 0.75rem 0;
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    z-index: 10;
+  }
+
+  .form-actions .btn {
+    flex: 1;
+  }
+
+  /* Tarjetas de tipo: más compactas */
+  .card-tipo .card-body {
+    padding: 1rem 0.5rem;
+  }
+
+  .form-label { font-size: 0.8125rem; }
+
+  .container-fluid { padding-left: 0.5rem; padding-right: 0.5rem; }
+}

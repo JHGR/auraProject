@@ -1,0 +1,279 @@
+// El carrito no crece más allá de su contenido; el panel-cobro toma el resto
+:host {
+  display:       flex;
+  flex-direction: column;
+  flex-shrink:   0;
+  overflow:      hidden;
+  border-radius: 8px;
+  border:        1px solid #dee2e6;
+  background:    #fff;
+}
+
+.carrito-wrapper {
+  display:        flex;
+  flex-direction: column;
+  overflow:       hidden;
+}
+
+.carrito-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.9rem;
+  background: var(--color-dark-blue);
+  color: #fff;
+  font-size: 0.875rem;
+
+  i { color: var(--color-cyber-yellow); }
+}
+
+.btn-xs {
+  padding: 0.1rem 0.4rem;
+  font-size: 0.75rem;
+}
+
+.btn-vaciar {
+  background:    transparent;
+  border:        1px solid rgba(255,255,255,0.45);
+  color:         rgba(255,255,255,0.85);
+  border-radius: 4px;
+  transition:    background 0.18s, border-color 0.18s, color 0.18s;
+
+  &:hover, &:focus {
+    background:   var(--color-cyber-yellow);
+    border-color: var(--color-cyber-yellow);
+    color:        #000;
+    i { color: #000; }
+  }
+}
+
+.carrito-vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  color: #aaa;
+  font-size: 0.85rem;
+
+  i { font-size: 2.5rem; margin-bottom: 0.5rem; }
+}
+
+.carrito-items {
+  // Altura máxima adaptada: hasta el 30% del viewport, mínimo 140px, máximo 280px
+  max-height: clamp(140px, 28vh, 280px);
+  overflow-y: auto;
+}
+
+.linea-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto auto;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.8rem;
+  border-left: 3px solid transparent;
+
+  &:hover { background: #fafafa; }
+
+  &.linea-item--servicio {
+    border-left-color: #0dcaf0;
+    background: #f0fbff;
+
+    &:hover { background: #e3f6fc; }
+  }
+}
+
+.linea-nombre {
+  font-weight: 500;
+  color: #1a2a66;
+  line-height: 1.3;
+  min-width: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+
+  .linea-sku { font-size: 0.68rem; color: #888; display: block; }
+}
+
+.linea-precio { color: #555; font-size: 0.78rem; white-space: nowrap; }
+
+.linea-qty {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.btn-qty {
+  width: 26px; height: 26px;
+  border-radius: 5px;
+  border: 1.5px solid #ccc;
+  background: #f5f5f5;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 0.8rem;
+  padding: 0;
+  color: #444;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn-qty-minus {
+  &:hover { background: #fde8e8; color: #dc3545; border-color: #dc3545; }
+}
+
+.btn-qty-plus {
+  &:hover { background: #e6f4ea; color: #198754; border-color: #198754; }
+}
+
+.qty-input {
+  width: 40px;
+  text-align: center;
+  font-size: 0.8rem;
+  padding: 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 22px;
+}
+
+.linea-subtotal {
+  white-space: nowrap;
+  color: var(--color-deep-blue);
+  font-size: 0.82rem;
+}
+
+.btn-eliminar {
+  background: none;
+  border: none;
+  color: #dc3545;
+  cursor: pointer;
+  padding: 0.1rem 0.2rem;
+  font-size: 0.75rem;
+  border-radius: 4px;
+
+  &:hover { background: #dc354520; }
+}
+
+// ── Botón expandir (en header normal) ──────────────────────
+.btn-expandir {
+  background:    transparent;
+  border:        1px solid rgba(255,255,255,0.4);
+  color:         rgba(255,255,255,0.85);
+  border-radius: 4px;
+  width:         28px;
+  height:        28px;
+  display:       flex;
+  align-items:   center;
+  justify-content: center;
+  cursor:        pointer;
+  font-size:     0.75rem;
+  padding:       0;
+  transition:    background 0.18s, border-color 0.18s, color 0.18s;
+
+  &:hover, &:focus {
+    background:   var(--color-cyber-yellow);
+    border-color: var(--color-cyber-yellow);
+    color:        #000;
+  }
+}
+
+// ── Modal backdrop ───────────────────────────────────────────
+.carrito-modal-backdrop {
+  position:       fixed;
+  inset:          0;
+  z-index:        1050;
+  background:     rgba(0, 0, 0, 0.55);
+  display:        flex;
+  align-items:    center;
+  justify-content: center;
+  padding:        1rem;
+  animation:      fadeBackdropIn 0.2s ease;
+}
+
+@keyframes fadeBackdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+// ── Modal contenedor ─────────────────────────────────────────
+.carrito-modal {
+  background:    #fff;
+  border-radius: 12px;
+  width:         min(700px, 96vw);
+  max-height:    85vh;
+  display:       flex;
+  flex-direction: column;
+  box-shadow:    0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow:      hidden;
+  animation:     slideModalIn 0.22s ease;
+}
+
+@keyframes slideModalIn {
+  from { transform: translateY(-18px); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+// ── Header del modal ─────────────────────────────────────────
+.carrito-modal-header {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  padding:         0.75rem 1rem;
+  background:      var(--color-dark-blue);
+  color:           #fff;
+  font-size:       0.95rem;
+  flex-shrink:     0;
+
+  i { color: var(--color-cyber-yellow); }
+}
+
+// ── Botón contraer (en header del modal) ─────────────────────
+.btn-contraer {
+  background:    transparent;
+  border:        1px solid rgba(255,255,255,0.4);
+  color:         rgba(255,255,255,0.85);
+  border-radius: 4px;
+  width:         32px;
+  height:        32px;
+  display:       flex;
+  align-items:   center;
+  justify-content: center;
+  cursor:        pointer;
+  font-size:     0.85rem;
+  padding:       0;
+  transition:    background 0.18s, border-color 0.18s, color 0.18s;
+
+  &:hover, &:focus {
+    background:   var(--color-cyber-yellow);
+    border-color: var(--color-cyber-yellow);
+    color:        #000;
+    i { color: #000; }
+  }
+}
+
+// ── Items en el modal (sin límite de altura, scroll interno) ─
+.carrito-modal-items {
+  overflow-y: auto;
+  flex:       1;
+  min-height: 0;
+}
+
+// ── Fila de item en modo modal (más generosa) ───────────────
+.linea-item--modal {
+  font-size: 0.88rem;
+  padding:   0.65rem 1rem;
+
+  .linea-nombre { font-size: 0.9rem; -webkit-line-clamp: unset; }
+  .linea-precio { font-size: 0.85rem; }
+  .linea-subtotal { font-size: 0.9rem; }
+
+  .btn-qty { width: 30px; height: 30px; }
+  .qty-input { width: 48px; height: 26px; }
+}
+
+// ── Vacío en modal ───────────────────────────────────────────
+.carrito-vacio--modal {
+  padding: 3rem 2rem;
+  i { font-size: 3.5rem; }
+}

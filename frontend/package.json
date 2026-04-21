@@ -1,0 +1,45 @@
+{
+  "name": "supercopias-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "ng serve --proxy-config proxy.conf.json",
+    "build": "ng build --configuration production",
+    "build:prod": "ng build --configuration production",
+    "serve:prod": "ng serve --configuration production",
+    "test": "ng test",
+    "serve:static": "npx http-server dist/supercopias-frontend --spa --cors --verbose -p 8080",
+    "serve:static:quiet": "npx http-server dist/supercopias-frontend --spa -p 8080",
+    "serve:spa": "node spa-server.js",
+    "diagnose": "powershell -ExecutionPolicy Bypass -File diagnose.ps1",
+    "diagnose:bash": "bash diagnose.sh",
+    "test:local": "powershell -ExecutionPolicy Bypass -File test-local.ps1",
+    "redeploy": "powershell -ExecutionPolicy Bypass -File redeploy.ps1",
+    "build:check": "powershell -ExecutionPolicy Bypass -File build-and-check.ps1"
+  },
+  "dependencies": {
+    "@angular/animations": "^16.2.0",
+    "@angular/common": "^16.2.0",
+    "@angular/compiler": "^16.2.0",
+    "@angular/core": "^16.2.0",
+    "@angular/forms": "^16.2.0",
+    "@angular/platform-browser": "^16.2.0",
+    "@angular/platform-browser-dynamic": "^16.2.0",
+    "@angular/router": "^16.2.0",
+    "bootstrap-icons": "^1.13.1",
+    "express": "^4.21.2",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.5.0",
+    "zone.js": "~0.13.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^16.2.0",
+    "@angular/cli": "^16.2.16",
+    "http-server": "^14.1.1",
+    "typescript": "^5.1.3"
+  },
+  "engines": {
+    "node": ">=18.0.0 <19.0.0",
+    "npm": ">=9.0.0"
+  }
+}

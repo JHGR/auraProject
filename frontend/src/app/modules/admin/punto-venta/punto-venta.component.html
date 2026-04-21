@@ -1,0 +1,120 @@
+<div class="pos-wrapper">
+
+  <!-- ── Barra superior ── -->
+  <div class="pos-topbar">
+    <div class="topbar-left">
+      <i class="bi bi-shop me-2"></i>
+      <span class="fw-bold">Punto de Venta</span>
+    </div>
+    <div class="topbar-center">
+      <div class="btn-group btn-group-sm">
+        <button class="btn" [class.btn-primary]="vistaActiva==='pos'"
+          [class.btn-outline-primary]="vistaActiva!=='pos'"
+          (click)="cambiarVista('pos')">
+          <i class="bi bi-bag-plus me-1"></i>Nueva Venta
+        </button>
+        <button class="btn" [class.btn-primary]="vistaActiva==='historial'"
+          [class.btn-outline-primary]="vistaActiva!=='historial'"
+          (click)="cambiarVista('historial')">
+          <i class="bi bi-clock-history me-1"></i>Historial
+        </button>
+        <button class="btn" [class.btn-primary]="vistaActiva==='cotizaciones'"
+          [class.btn-outline-primary]="vistaActiva!=='cotizaciones'"
+          (click)="cambiarVista('cotizaciones')">
+          <i class="bi bi-file-earmark-text me-1"></i>Cotizaciones
+        </button>
+        <button class="btn" [class.btn-primary]="vistaActiva==='pedidos'"
+          [class.btn-outline-primary]="vistaActiva!=='pedidos'"
+          (click)="cambiarVista('pedidos')">
+          <i class="bi bi-card-list me-1"></i>Pedidos
+          <span class="badge bg-danger ms-1" *ngIf="pedidosActivos > 0">{{ pedidosActivos }}</span>
+        </button>
+      </div>
+    </div>
+    <!-- Stats del día -->
+    <div class="topbar-right d-none d-lg-flex gap-3">
+      <div class="stat-chip" *ngIf="statsHoy">
+        <span class="stat-label">Ventas hoy</span>
+        <span class="stat-value">{{ statsHoy.total_ventas }}</span>
+      </div>
+      <div class="stat-chip highlight" *ngIf="statsHoy">
+        <span class="stat-label">Total</span>
+        <span class="stat-value">{{ statsHoy.total_ingresos | currency:'MXN':'symbol-narrow':'1.2-2' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- VISTA POS                                 -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="pos-body" *ngIf="vistaActiva==='pos'">
+
+    <!-- Columna izquierda: Selector cliente + Catálogo -->
+    <div class="pos-col-left">
+
+      <!-- Selector de cliente -->
+      <app-pos-selector-cliente
+        [clienteActual]="clienteSeleccionado"
+        (clienteSeleccionado)="onClienteSeleccionado($event)">
+      </app-pos-selector-cliente>
+
+      <!-- Catálogo de productos -->
+      <app-pos-catalogo
+        (agregarItem)="onAgregarAlCarrito($event)"
+        (agregarItemLibre)="onAgregarItemLibre($event)">
+      </app-pos-catalogo>
+    </div>
+
+    <!-- Columna derecha: Carrito + Panel cobro -->
+    <div class="pos-col-right">
+
+      <!-- Carrito -->
+      <app-pos-carrito
+        [carrito]="carrito"
+        [descuentoGlobalPct]="descuentoGlobalPct"
+        (carritoActualizado)="onCarritoActualizado($event)"
+        (limpiarCarrito)="onLimpiarCarrito()">
+      </app-pos-carrito>
+
+      <!-- Panel de cobro -->
+      <app-pos-panel-cobro
+        [carrito]="carrito"
+        [totales]="totales"
+        [clienteSeleccionado]="clienteSeleccionado"
+        [descuentoGlobalPct]="descuentoGlobalPct"
+        [descuentoConfigId]="descuentoConfigId"
+        [descuentoAutorizadoPor]="descuentoAutorizadoPor"
+        (descuentoCambiado)="onDescuentoCambiado($event)"
+        (ventaCompletada)="onVentaCompletada()"
+        (cotizacionGuardada)="onCotizacionGuardada($event)"
+        (pedidoGuardado)="onPedidoGuardado($event)">
+      </app-pos-panel-cobro>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- VISTA HISTORIAL                           -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="pos-historial-wrapper" *ngIf="vistaActiva==='historial'">
+    <app-pos-historial-ventas (irANuevaVenta)="cambiarVista('pos')"></app-pos-historial-ventas>
+  </div>
+  <!-- ════════════════════════════════════════════ -->
+  <!-- VISTA COTIZACIONES                        -->
+  <!-- ════════════════════════════════════════════ -->
+  <div class="pos-historial-wrapper" *ngIf="vistaActiva==='cotizaciones'">
+    <app-pos-cotizaciones-list
+      (cargarAlCarrito)="onCargarCotizacion($event)"
+      (cotizacionConvertida)="cargarStats()"
+      (irANuevaVenta)="cambiarVista('pos')">
+    </app-pos-cotizaciones-list>
+  </div>
+  <!-- ════════════════════════════════════════════ -->
+  <!-- VISTA PEDIDOS                              -->
+  <!-- ════════════════════════════════════════════ -->
+  <div class="pos-historial-wrapper" *ngIf="vistaActiva==='pedidos'">
+    <app-pos-pedidos-list
+      (irANuevaVenta)="cambiarVista('pos')"
+      (statsActualizadas)="onStatsActualizadas($event)">
+    </app-pos-pedidos-list>
+  </div>
+</div>

@@ -1,0 +1,147 @@
+<div class="catalogo-wrapper">
+
+  <!-- Toolbar de búsqueda -->
+  <div class="catalogo-toolbar">
+    <div class="search-box">
+      <i class="bi bi-search search-icon"></i>
+      <input type="text" class="form-control" placeholder="Buscar producto o SKU..."
+        [formControl]="busqueda">
+    </div>
+    <div class="toolbar-actions">
+      <button class="btn btn-toolbar btn-item-libre" (click)="abrirModalLibre()" title="Agregar ítem libre">
+        <i class="bi bi-plus-circle"></i>
+        <span class="btn-label">Ítem libre</span>
+      </button>
+      <button class="btn btn-toolbar btn-recargar" (click)="cargarCatalogo()" title="Recargar catálogo">
+        <i class="bi bi-arrow-clockwise"></i>
+        <span class="btn-label">Recargar</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Filtros por departamento -->
+  <div class="departamentos-bar" *ngIf="departamentos.length > 0">
+    <button class="dep-chip dep-chip--all" [class.active]="departamentoActivo===null"
+      (click)="seleccionarDepartamento(null)">Todos</button>
+    <button class="dep-chip" *ngFor="let d of departamentos"
+      [class.active]="departamentoActivo===d.id"
+      [style.border-color]="departamentoActivo===d.id ? d.color : ''"
+      [style.background]="departamentoActivo===d.id ? d.color + '22' : ''"
+      (click)="seleccionarDepartamento(d.id)">
+      <span class="dep-dot" [style.background]="d.color"></span>
+      {{ d.nombre }}
+    </button>
+  </div>
+
+  <!-- Cargando -->
+  <div class="text-center py-4" *ngIf="cargando">
+    <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+    <p class="text-muted small mt-2">Cargando catálogo...</p>
+  </div>
+
+  <!-- Error -->
+  <div class="alert alert-danger mx-3 my-2" *ngIf="error && !cargando">
+    <i class="bi bi-exclamation-triangle me-1"></i>{{ error }}
+    <button class="btn btn-sm btn-outline-danger ms-2" (click)="cargarCatalogo()">Reintentar</button>
+  </div>
+
+  <!-- Sin resultados -->
+  <div class="text-center py-5 text-muted" *ngIf="!cargando && !error && itemsFiltrados.length === 0">
+    <i class="bi bi-search" style="font-size:2rem"></i>
+    <p class="mt-2">Sin resultados</p>
+  </div>
+
+  <!-- Área de productos: grid + paginador -->
+  <div class="catalogo-body" *ngIf="!cargando && !error && itemsFiltrados.length > 0">
+
+    <!-- Grid de productos -->
+    <div class="catalogo-grid">
+      <div class="producto-card" *ngFor="let item of itemsPaginados"
+        [class.sin-stock]="item.nivel_stock==='sin_stock'"
+        (click)="agregar(item)"
+        [title]="item.nivel_stock==='sin_stock' ? 'Sin stock disponible' : 'Clic para agregar al carrito'">
+
+        <!-- Ícono / miniatura -->
+        <div class="prod-icono">
+          <img *ngIf="item.foto_url" [src]="item.foto_url" [alt]="item.nombre">
+          <i *ngIf="!item.foto_url" class="bi"
+             [class.bi-box-seam]="!item.es_servicio"
+             [class.bi-file-earmark-richtext]="item.es_servicio"></i>
+          <span class="badge-top-sold" *ngIf="item.veces_vendido && item.veces_vendido > 0" title="Más vendido">
+            <i class="bi bi-fire"></i>
+          </span>
+        </div>
+
+        <!-- Info -->
+        <div class="prod-info">
+          <div class="prod-cabecera">
+            <span class="prod-nombre" [title]="item.nombre">{{ item.nombre }}</span>
+            <span class="badge-stock badge bg-{{ badgeNivelStock(item.nivel_stock) }}">{{ labelNivelStock(item.nivel_stock) }}</span>
+          </div>
+          <div class="prod-sku text-muted" *ngIf="item.sku">SKU: {{ item.sku }}</div>
+          <div class="prod-precio">{{ item.precio_venta | currency:'MXN':'symbol-narrow':'1.2-2' }}</div>
+          <div class="prod-stock text-muted" *ngIf="!item.es_servicio">
+            <i class="bi bi-box-seam me-1"></i>{{ item.existencia_actual }} {{ item.unidad_medida }}
+          </div>
+          <div class="prod-stock text-info" *ngIf="item.es_servicio">
+            <i class="bi bi-patch-check me-1"></i>Servicio
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Paginador -->
+    <nav class="catalogo-paginador" *ngIf="totalPaginas > 1" aria-label="Páginas del catálogo">
+      <button class="pag-btn" [disabled]="paginaActual === 1" (click)="irAPagina(paginaActual - 1)" title="Anterior">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      <ng-container *ngFor="let p of paginasVisibles">
+        <button class="pag-btn" *ngIf="p !== '...'" [class.active]="p === paginaActual" (click)="irAPagina(p)">{{ p }}</button>
+        <span class="pag-ellipsis" *ngIf="p === '...'">...</span>
+      </ng-container>
+      <button class="pag-btn" [disabled]="paginaActual === totalPaginas" (click)="irAPagina(paginaActual + 1)" title="Siguiente">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+      <span class="pag-info">{{ paginaActual }} / {{ totalPaginas }}</span>
+    </nav>
+
+  </div>
+
+</div>
+
+<!-- ── Modal ítem libre ── -->
+<div class="modal-overlay" *ngIf="mostrarModalLibre" (click)="mostrarModalLibre=false">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <div class="modal-header-custom">
+      <h6 class="mb-0"><i class="bi bi-pencil-square me-2"></i>Agregar ítem libre</h6>
+      <button class="btn-close btn-close-white" (click)="mostrarModalLibre=false"></button>
+    </div>
+    <div class="modal-body p-3">
+      <div class="mb-3">
+        <label class="form-label">Descripción *</label>
+        <input type="text" class="form-control" [(ngModel)]="itemLibre.nombre"
+          placeholder="Ej: Servicio especial, Impresión extra...">
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <label class="form-label">Precio (MXN) *</label>
+          <input type="number" class="form-control" [(ngModel)]="itemLibre.precio"
+            min="0" step="0.01">
+        </div>
+        <div class="col-6">
+          <label class="form-label">Cantidad *</label>
+          <input type="number" class="form-control" [(ngModel)]="itemLibre.cantidad"
+            min="1" step="1">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer-custom">
+      <button class="btn btn-secondary btn-sm" (click)="mostrarModalLibre=false">Cancelar</button>
+      <button class="btn btn-primary btn-sm" (click)="confirmarItemLibre()"
+        [disabled]="!itemLibre.nombre.trim() || itemLibre.precio<=0">
+        <i class="bi bi-plus-circle me-1"></i>Agregar al carrito
+      </button>
+    </div>
+  </div>
+</div>
