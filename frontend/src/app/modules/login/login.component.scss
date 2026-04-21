@@ -85,15 +85,19 @@
     padding: 2rem 2rem 0.5rem;
     text-align: center;
     
-    h1 {
-        color: var(--color-deep-blue);
+    h1, h3 {
+        font-family: 'Playfair Display', serif;
+        color: var(--color-dark-blue);
         font-weight: 700;
-        font-size: 2rem;
-        margin-bottom: 0.5rem;
+        font-size: 1.75rem;
+        margin-bottom: 0.25rem;
     }
     
     p {
-        color: #666;
+        color: #999;
+        font-size: 0.82rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
         margin-bottom: 0;
     }
 }
@@ -110,8 +114,8 @@
     transition: all 0.3s ease;
     
     &:focus {
-        border-color: var(--color-cyber-yellow);
-        box-shadow: 0 0 0 0.2rem rgba(255, 221, 2, 0.25);
+        border-color: var(--color-deep-blue);
+        box-shadow: 0 0 0 0.2rem rgba(174, 156, 202, 0.35);
     }
 }
 
@@ -146,7 +150,7 @@
     &:hover {
         background: linear-gradient(135deg, var(--color-dark-blue) 0%, var(--color-deep-blue) 100%);
         transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(0, 61, 128, 0.3);
+        box-shadow: 0 8px 25px rgba(122, 104, 160, 0.35);
         
         &:before {
             left: 100%;
