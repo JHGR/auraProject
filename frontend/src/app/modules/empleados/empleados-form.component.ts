@@ -61,7 +61,7 @@ import { NotificationService } from '../../services/notification.service';
                     class="form-control" 
                     formControlName="email"
                     [class.is-invalid]="isInvalid('email')"
-                    placeholder="empleado@supercopias.com">
+                    placeholder="empleado@aura.com">
                   <div class="invalid-feedback" *ngIf="isInvalid('email')">
                     <span *ngIf="empleadoForm.get('email')?.errors?.['email']">Formato de email inválido</span>
                   </div>

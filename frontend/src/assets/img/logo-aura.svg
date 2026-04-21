@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 50" width="160" height="50">
+  <!-- Pink brush stroke -->
+  <ellipse cx="34" cy="25" rx="28" ry="12" fill="#fad2dd" opacity="0.5" transform="rotate(-3 34 25)"/>
+
+  <!-- Circle border -->
+  <circle cx="34" cy="25" r="22" fill="none" stroke="#ae9cca" stroke-width="1.8"/>
+  <circle cx="34" cy="25" r="19" fill="none" stroke="#dcc9a6" stroke-width="0.8"/>
+
+  <!-- Grid lines inside circle -->
+  <line x1="28" y1="14" x2="28" y2="36" stroke="#ae9cca" stroke-width="0.9"/>
+  <line x1="40" y1="14" x2="40" y2="36" stroke="#ae9cca" stroke-width="0.9"/>
+  <line x1="18" y1="21" x2="50" y2="21" stroke="#ae9cca" stroke-width="0.9"/>
+  <line x1="18" y1="29" x2="50" y2="29" stroke="#ae9cca" stroke-width="0.9"/>
+
+  <!-- AURA text in circle -->
+  <text x="34" y="30"
+    font-family="'Playfair Display', Georgia, serif"
+    font-size="14" font-weight="700"
+    text-anchor="middle"
+    letter-spacing="1.5"
+    fill="#ae9cca">AURA</text>
+
+  <!-- Right side: full name -->
+  <text x="70" y="20"
+    font-family="'Playfair Display', Georgia, serif"
+    font-size="16" font-weight="700"
+    fill="#ae9cca">AURA</text>
+  <text x="70" y="32"
+    font-family="Montserrat, Arial, sans-serif"
+    font-size="7.5" font-weight="400"
+    letter-spacing="1.8"
+    fill="#dcc9a6">SALA DE BELLEZA</text>
+  <text x="70" y="43"
+    font-family="Montserrat, Arial, sans-serif"
+    font-size="6" font-weight="300"
+    letter-spacing="1.2"
+    fill="#ae9cca" opacity="0.7">HAIR · MAKE UP · EXTENSIONES</text>
+</svg>

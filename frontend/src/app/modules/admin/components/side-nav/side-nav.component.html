@@ -2,11 +2,11 @@
     <nav class="sidenav shadow-right" (click)="$event.stopPropagation()">
         <!-- Header simplificado -->
         <div class="sidenav-header text-center py-3 border-bottom">
-            <div *ngIf="!collapsed" class="text-white fw-bold">
-                ADMINISTRACIÓN
+            <div *ngIf="!collapsed" class="sidenav-logo-full">
+                <img src="assets/img/logo-aura-blanco.svg" alt="Aura Sala de Belleza" style="height: 52px; width: auto;">
             </div>
             <div *ngIf="collapsed" class="sidenav-header-icon">
-                <i class="fas fa-store text-white opacity-75"></i>
+                <img src="assets/img/logo-aura-blanco.svg" alt="Aura" style="height: 36px; width: 36px; object-fit: contain;">
             </div>
         </div>
         

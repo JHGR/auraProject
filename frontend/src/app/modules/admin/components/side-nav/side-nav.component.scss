@@ -20,7 +20,7 @@
     position: fixed;
     left: 0;
     top: 0;
-    background: linear-gradient(180deg, var(--color-deep-blue) 0%, var(--color-dark-blue) 100%);
+    background: linear-gradient(180deg, var(--color-dark-blue) 0%, #5c4d80 100%);
     color: rgba(255, 255, 255, 0.95);
     transition: width 150ms ease-out, transform 150ms ease-out, left 150ms ease-out;
     z-index: 1060;
@@ -63,7 +63,7 @@
 
     &:hover {
         color: #fff;
-        background-color: rgba(255, 221, 2, 0.15);
+        background-color: rgba(220, 201, 166, 0.18);
         border-left: 3px solid var(--color-cyber-yellow);
         padding-left: calc(1rem - 3px);
     }
@@ -71,7 +71,7 @@
     &.active {
         color: #fff;
         font-weight: 600;
-        background-color: rgba(255, 221, 2, 0.2);
+        background-color: rgba(220, 201, 166, 0.25);
         border-left: 3px solid var(--color-cyber-yellow);
         padding-left: calc(1rem - 3px);
     }
@@ -92,9 +92,9 @@
 
 .sidenav-footer {
     padding: 0.75rem;
-    background: linear-gradient(180deg, var(--color-dark-blue) 0%, rgba(26, 42, 102, 0.9) 100%);
+    background: linear-gradient(180deg, rgba(92, 77, 128, 0.9) 0%, rgba(74, 60, 105, 0.95) 100%);
     flex: 0 0 auto;
-    border-top: 1px solid rgba(255, 221, 2, 0.3);
+    border-top: 1px solid rgba(220, 201, 166, 0.35);
 }
 
 .sidenav-footer-content {

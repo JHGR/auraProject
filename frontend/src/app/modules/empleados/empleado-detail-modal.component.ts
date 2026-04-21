@@ -436,7 +436,7 @@ export class EmpleadoDetailModalComponent {
       </head>
       <body>
         <div class="header">
-          <div class="company-name">SuperCopias</div>
+          <div class="company-name">Aura Sala de Belleza</div>
           <div class="document-title">Información del Empleado</div>
           <div class="print-date">Impreso el: ${currentDate}</div>
         </div>
@@ -518,7 +518,7 @@ export class EmpleadoDetailModalComponent {
         </div>
 
         <div class="footer">
-          <p>Este documento fue generado automáticamente por el sistema SuperCopias</p>
+          <p>Este documento fue generado automáticamente por el sistema Aura</p>
           <p>Para más información, contacte con nuestro equipo de soporte</p>
         </div>
       </body>
